@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package Login;
+
+option go_package = ".;Login";
+
+service Login {
+    rpc sendEmail(email) returns (jwt);
+}
+
+message email {
+    string email = 1;
+}
+
+message jwt {
+    string jwt = 1;
+}
