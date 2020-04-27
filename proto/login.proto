@@ -6,6 +6,7 @@ option go_package = ".;Login";
 
 service Login {
     rpc sendEmail(email) returns (jwt);
+    rpc acceptEmail(code) returns (tmpReturn);
 }
 
 message email {
@@ -14,4 +15,12 @@ message email {
 
 message jwt {
     string jwt = 1;
+}
+
+message code {
+    string code = 1;
+}
+
+message tmpReturn {
+    string str = 1;
 }
