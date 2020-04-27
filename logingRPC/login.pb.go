@@ -123,6 +123,100 @@ func (x *Jwt) GetJwt() string {
 	return ""
 }
 
+type Code struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+}
+
+func (x *Code) Reset() {
+	*x = Code{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_login_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Code) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Code) ProtoMessage() {}
+
+func (x *Code) ProtoReflect() protoreflect.Message {
+	mi := &file_login_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Code.ProtoReflect.Descriptor instead.
+func (*Code) Descriptor() ([]byte, []int) {
+	return file_login_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Code) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type TmpReturn struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Str string `protobuf:"bytes,1,opt,name=str,proto3" json:"str,omitempty"`
+}
+
+func (x *TmpReturn) Reset() {
+	*x = TmpReturn{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_login_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TmpReturn) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TmpReturn) ProtoMessage() {}
+
+func (x *TmpReturn) ProtoReflect() protoreflect.Message {
+	mi := &file_login_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TmpReturn.ProtoReflect.Descriptor instead.
+func (*TmpReturn) Descriptor() ([]byte, []int) {
+	return file_login_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *TmpReturn) GetStr() string {
+	if x != nil {
+		return x.Str
+	}
+	return ""
+}
+
 var File_login_proto protoreflect.FileDescriptor
 
 var file_login_proto_rawDesc = []byte{
@@ -130,11 +224,18 @@ var file_login_proto_rawDesc = []byte{
 	0x6f, 0x67, 0x69, 0x6e, 0x22, 0x1d, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x14, 0x0a,
 	0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d,
 	0x61, 0x69, 0x6c, 0x22, 0x17, 0x0a, 0x03, 0x6a, 0x77, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x6a, 0x77,
-	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6a, 0x77, 0x74, 0x32, 0x2e, 0x0a, 0x05,
-	0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x12, 0x25, 0x0a, 0x09, 0x73, 0x65, 0x6e, 0x64, 0x45, 0x6d, 0x61,
-	0x69, 0x6c, 0x12, 0x0c, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x2e, 0x65, 0x6d, 0x61, 0x69, 0x6c,
-	0x1a, 0x0a, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x2e, 0x6a, 0x77, 0x74, 0x42, 0x09, 0x5a, 0x07,
-	0x2e, 0x3b, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6a, 0x77, 0x74, 0x22, 0x1a, 0x0a, 0x04,
+	0x63, 0x6f, 0x64, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x22, 0x1d, 0x0a, 0x09, 0x74, 0x6d, 0x70, 0x52,
+	0x65, 0x74, 0x75, 0x72, 0x6e, 0x12, 0x10, 0x0a, 0x03, 0x73, 0x74, 0x72, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x03, 0x73, 0x74, 0x72, 0x32, 0x5c, 0x0a, 0x05, 0x4c, 0x6f, 0x67, 0x69, 0x6e,
+	0x12, 0x25, 0x0a, 0x09, 0x73, 0x65, 0x6e, 0x64, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x0c, 0x2e,
+	0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x2e, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x1a, 0x0a, 0x2e, 0x4c, 0x6f,
+	0x67, 0x69, 0x6e, 0x2e, 0x6a, 0x77, 0x74, 0x12, 0x2c, 0x0a, 0x0b, 0x61, 0x63, 0x63, 0x65, 0x70,
+	0x74, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x0b, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x2e, 0x63,
+	0x6f, 0x64, 0x65, 0x1a, 0x10, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x2e, 0x74, 0x6d, 0x70, 0x52,
+	0x65, 0x74, 0x75, 0x72, 0x6e, 0x42, 0x09, 0x5a, 0x07, 0x2e, 0x3b, 0x4c, 0x6f, 0x67, 0x69, 0x6e,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -149,16 +250,20 @@ func file_login_proto_rawDescGZIP() []byte {
 	return file_login_proto_rawDescData
 }
 
-var file_login_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_login_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_login_proto_goTypes = []interface{}{
-	(*Email)(nil), // 0: Login.email
-	(*Jwt)(nil),   // 1: Login.jwt
+	(*Email)(nil),     // 0: Login.email
+	(*Jwt)(nil),       // 1: Login.jwt
+	(*Code)(nil),      // 2: Login.code
+	(*TmpReturn)(nil), // 3: Login.tmpReturn
 }
 var file_login_proto_depIdxs = []int32{
 	0, // 0: Login.Login.sendEmail:input_type -> Login.email
-	1, // 1: Login.Login.sendEmail:output_type -> Login.jwt
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: Login.Login.acceptEmail:input_type -> Login.code
+	1, // 2: Login.Login.sendEmail:output_type -> Login.jwt
+	3, // 3: Login.Login.acceptEmail:output_type -> Login.tmpReturn
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -194,6 +299,30 @@ func file_login_proto_init() {
 				return nil
 			}
 		}
+		file_login_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Code); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_login_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TmpReturn); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -201,7 +330,7 @@ func file_login_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_login_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -228,6 +357,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type LoginClient interface {
 	SendEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*Jwt, error)
+	AcceptEmail(ctx context.Context, in *Code, opts ...grpc.CallOption) (*TmpReturn, error)
 }
 
 type loginClient struct {
@@ -247,9 +377,19 @@ func (c *loginClient) SendEmail(ctx context.Context, in *Email, opts ...grpc.Cal
 	return out, nil
 }
 
+func (c *loginClient) AcceptEmail(ctx context.Context, in *Code, opts ...grpc.CallOption) (*TmpReturn, error) {
+	out := new(TmpReturn)
+	err := c.cc.Invoke(ctx, "/Login.Login/acceptEmail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoginServer is the server API for Login service.
 type LoginServer interface {
 	SendEmail(context.Context, *Email) (*Jwt, error)
+	AcceptEmail(context.Context, *Code) (*TmpReturn, error)
 }
 
 // UnimplementedLoginServer can be embedded to have forward compatible implementations.
@@ -258,6 +398,9 @@ type UnimplementedLoginServer struct {
 
 func (*UnimplementedLoginServer) SendEmail(context.Context, *Email) (*Jwt, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendEmail not implemented")
+}
+func (*UnimplementedLoginServer) AcceptEmail(context.Context, *Code) (*TmpReturn, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AcceptEmail not implemented")
 }
 
 func RegisterLoginServer(s *grpc.Server, srv LoginServer) {
@@ -282,6 +425,24 @@ func _Login_SendEmail_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Login_AcceptEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Code)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoginServer).AcceptEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Login.Login/AcceptEmail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoginServer).AcceptEmail(ctx, req.(*Code))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Login_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Login.Login",
 	HandlerType: (*LoginServer)(nil),
@@ -289,6 +450,10 @@ var _Login_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "sendEmail",
 			Handler:    _Login_SendEmail_Handler,
+		},
+		{
+			MethodName: "acceptEmail",
+			Handler:    _Login_AcceptEmail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
