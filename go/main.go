@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
+	"os"
 
 	login "magicLink/logingRPC"
 
@@ -15,6 +16,10 @@ func main() {
 	lis, err := net.Listen("tcp", ":4242")
 	if err != nil {
 		fmt.Println(err)
+		return
+	}
+	if os.Getenv("PASS") == "" {
+		fmt.Println("PASS: email password is needed")
 		return
 	}
 	// connectionTable = map[string]chan bool{}

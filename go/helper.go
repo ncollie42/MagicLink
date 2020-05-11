@@ -1,12 +1,19 @@
 package main
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"math/rand"
+	"net/smtp"
+	"os"
 	"time"
 	"unsafe"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
+//-------------------------------------------------------------------------------------
 /*
 	from stackoverflow
 	generates a random string
@@ -40,10 +47,63 @@ func randomString(n int) string {
 }
 
 //-------------------------------------------------------------------------------------
+// TODO: change matcha toEmail to acutal
+type sendingEmail struct {
+	ToEmail string
+	Subject string
+	Link    string
+}
+
+func sendMail(emailInfo sendingEmail) error {
+	gmailSMTP := "smtp.gmail.com:587"
+	fromEmail := "42.matcha.project@gmail.com"
+	pass := os.Getenv("PASS")
+	toEmail := "42.matcha.project@gmail.com" //Update this later to email from args
+	msg := []byte("To: " + emailInfo.ToEmail + "\r\n" +
+		"Subject:" + emailInfo.Subject + "\n\n" +
+		"Click button below to log\nThis link will expire in 10 seconds\n\n" +
+		emailInfo.Link)
+	auth := smtp.PlainAuth(
+		"",
+		fromEmail,
+		pass,
+		"smtp.gmail.com",
+	)
+	err := smtp.SendMail(gmailSMTP, auth, fromEmail, []string{toEmail}, msg)
+	if isError(err) {
+		return errors.New("Could not send email")
+	}
+	return nil
+}
+
+//-------------------------------------------------------------------------------------
 
 func isError(err error) bool {
 	if err != nil {
 		log.Println("it's an error", err)
 	}
 	return err != nil
+}
+
+//-------------------------------------------------------------------------------------
+
+func newJWT() string {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"foo": "bar",
+		"id":  "123",
+	})
+	tokenString, err := token.SignedString([]byte("hmacSampleSecret"))
+	fmt.Println(tokenString)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return tokenString
+}
+
+//----------------------------------
+
+func createUpdate(email string, key int) (userID int) {
+	//go to database, use key to find tab
+	//insert / update
+	return 42
 }

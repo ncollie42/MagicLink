@@ -19,7 +19,8 @@ func (l *loginService) AcceptEmail(ctx context.Context, hash *login.Code) (*logi
 	if c, ok := l.connectionTable[hash.Code]; ok {
 		//notify email link has been clicked
 		fmt.Println("clicked!")
-		c <- true
+		//Go to database 'update/create/
+		c <- true //send jwt info into channel
 	} else {
 		return &login.TmpReturn{Str: "Bad"}, errors.New("This link(hash) is not valid")
 	}
@@ -31,8 +32,13 @@ func (l *loginService) SendEmail(ctx context.Context, email *login.Email) (*logi
 	c := make(chan bool)
 	key := randomString(15)
 	l.connectionTable[key] = c
-
-	err := l.sendEmail(email.Email, key)
+	fmt.Println(email.Email, key)
+	emailBody := sendingEmail{
+		ToEmail: email.Email,
+		Subject: "Email confirmation",
+		Link:    "localhost:8090/#/confirmation/?code=" + key,
+	}
+	err := sendMail(emailBody)
 	if isError(err) {
 		return &login.Jwt{}, err
 	}
@@ -44,20 +50,15 @@ func (l *loginService) SendEmail(ctx context.Context, email *login.Email) (*logi
 		case <-ticker:
 			fmt.Println("Time is over gonna end")
 			delete(l.connectionTable, key)
-			return &login.Jwt{Jwt: "time is over"}, nil
+			return &login.Jwt{Jwt: ""}, errors.New("Email has expired")
 		case <-c:
 			fmt.Println("Email clicked")
 			delete(l.connectionTable, key)
-			return &login.Jwt{Jwt: "Email clicked"}, nil
+			return &login.Jwt{Jwt: newJWT()}, nil
 		case <-ctx.Done():
 			fmt.Println("Something happened")
 		}
 	}
 	fmt.Println("func is over")
 	return &login.Jwt{Jwt: email.Email}, nil
-}
-
-func (l *loginService) sendEmail(email, hash string) error {
-	fmt.Println("sending email:", email, hash)
-	return nil
 }
