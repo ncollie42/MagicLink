@@ -74,10 +74,9 @@ func (l *loginService) Login(ctx context.Context, request *login.LoginInfo) (*lo
 
 		case <-ctx.Done():
 			fmt.Println("Something happened")
-			break
+			return &login.Jwt{}, errors.New("ctx was trigered")
 		}
 	}
-	return &login.Jwt{Jwt: request.Email}, nil
 }
 
 func (l *loginService) IsLoggedIn(ctx context.Context, jwt *login.Jwt) (*login.Status, error) {
@@ -89,22 +88,3 @@ func (l *loginService) IsLoggedIn(ctx context.Context, jwt *login.Jwt) (*login.S
 	fmt.Println("It's not valid")
 	return &login.Status{IsLoggedIn: false}, errors.New("jwt is not valid")
 }
-
-/*
-
-	go to db,
-		- create/update user --> add or create
-			-
-		- make sure he's on follow table --> add or do nothing
-			- user connectionID to go to table and create new if it doesn't exsis
-		- return userID
-
-	create JWT with
-		- userID
-		- project/connectionID
-		- expire time, time.Now() + 10min
-
-	isLoggedIn -> verifies token
-		- on server I can check projectID to makesure it's mine. (optional)
-
-*/
