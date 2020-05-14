@@ -1,18 +1,20 @@
 <template>
     <div class="container">
-        <login_enter v-on:email="call" v-if="currentState == State.Idle"/>
-        <h1 v-if="currentState == State.Waiting">Waiting</h1>
-        <h1>{{responce}}</h1>
+        <div class="containerInner">
+        <login_enter v-on:email="login" v-if="currentState == State.Idle"/>
+        <login_waiting v-bind:email=email v-if="currentState == State.Waiting"/>
+        <p>{{responce}}</p>
+        </div>
     </div>
 </template>
 
-
-
 <script>
 import login_enter from "@/components/login_enter.vue"
+import login_waiting from "@/components/login_waiting.vue"
 import { grpc } from "@improbable-eng/grpc-web";
 import { Login } from "../logingRPC/login_pb_service"; //service
-import { loginInfo, jwt } from "../logingRPC/login_pb"; //type
+import { loginInfo, jwt} from "../logingRPC/login_pb"; //type
+import router from "../router"
 
 const State = {
     Idle: 1,
@@ -22,21 +24,22 @@ export default {
     name: "login",
     components: {
         login_enter,
+        login_waiting,
     },
     created() {
         this.isLoggedIn();
-        console.log("created now!")
     },
     data() {
         return {
             currentState: State.Idle,
             State,
             responce:"",
+            email:"",
         }
     },
     methods: {
-        call(passedEmail) {
-            
+        login(passedEmail) {
+            this.email = passedEmail
             // e.preventDefault();
             const sendingEmail = new loginInfo();
             sendingEmail.setEmail(passedEmail);
@@ -52,10 +55,10 @@ export default {
                     // console.log("All good it worked: ", message.toObject());
                         // this.responce = message.toObject().jwt;
                         localStorage.setItem("jwt", message.toObject().jwt);
-                        this.currentState = State.Idle;
+                        router.push({path: '/'})
                     } else {
                     console.log("status:", status, statusMessage, headers, message, trailers)
-                        this.responce = "failed"
+                        this.responce = "You're link is expired try again"
                         this.currentState = State.Idle;
                     }
                 }
@@ -72,10 +75,11 @@ export default {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc.Code.OK && message) {
-                        console.log("We good -> forward elsewhere")
+                        router.push({path: '/'})
                     } else {
                        console.log("status:", status, statusMessage, headers, message, trailers)
                        console.log("Not logged in")
+
                     }
                 }
             })

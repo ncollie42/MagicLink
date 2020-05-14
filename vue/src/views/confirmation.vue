@@ -1,15 +1,12 @@
 <template>
     <div>
         <div class="container">
+            <div class="containerInner">
             <waiting v-if="currentState == State.Waiting"/>
             <error v-else-if="currentState == State.Error"/>
             <success v-else-if="currentState == State.Succes"/>
-            <!-- <waiting/> -->
-            <!-- <error/> -->
-            <!-- <success/> -->
+            </div>
         </div>
-  
-        <!-- <footer>Testing</footer> -->
     </div>
 </template>
 
@@ -69,17 +66,3 @@ export default Vue.extend({
     }
 })
 </script>
-
-
-<style>
-.container {
-    position: absolute;
-    /* background-color: crimson; */
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    top:20%;
-    text-align: center;
-}
-</style>
