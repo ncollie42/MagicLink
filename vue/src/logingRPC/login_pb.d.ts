@@ -3,23 +3,27 @@
 
 import * as jspb from "google-protobuf";
 
-export class email extends jspb.Message {
+export class loginInfo extends jspb.Message {
   getEmail(): string;
   setEmail(value: string): void;
 
+  getKey(): number;
+  setKey(value: number): void;
+
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): email.AsObject;
-  static toObject(includeInstance: boolean, msg: email): email.AsObject;
+  toObject(includeInstance?: boolean): loginInfo.AsObject;
+  static toObject(includeInstance: boolean, msg: loginInfo): loginInfo.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: email, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): email;
-  static deserializeBinaryFromReader(message: email, reader: jspb.BinaryReader): email;
+  static serializeBinaryToWriter(message: loginInfo, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): loginInfo;
+  static deserializeBinaryFromReader(message: loginInfo, reader: jspb.BinaryReader): loginInfo;
 }
 
-export namespace email {
+export namespace loginInfo {
   export type AsObject = {
     email: string,
+    key: number,
   }
 }
 
@@ -63,23 +67,39 @@ export namespace code {
   }
 }
 
-export class tmpReturn extends jspb.Message {
-  getStr(): string;
-  setStr(value: string): void;
-
+export class empty extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): tmpReturn.AsObject;
-  static toObject(includeInstance: boolean, msg: tmpReturn): tmpReturn.AsObject;
+  toObject(includeInstance?: boolean): empty.AsObject;
+  static toObject(includeInstance: boolean, msg: empty): empty.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: tmpReturn, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): tmpReturn;
-  static deserializeBinaryFromReader(message: tmpReturn, reader: jspb.BinaryReader): tmpReturn;
+  static serializeBinaryToWriter(message: empty, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): empty;
+  static deserializeBinaryFromReader(message: empty, reader: jspb.BinaryReader): empty;
 }
 
-export namespace tmpReturn {
+export namespace empty {
   export type AsObject = {
-    str: string,
+  }
+}
+
+export class status extends jspb.Message {
+  getIsloggedin(): boolean;
+  setIsloggedin(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): status.AsObject;
+  static toObject(includeInstance: boolean, msg: status): status.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: status, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): status;
+  static deserializeBinaryFromReader(message: status, reader: jspb.BinaryReader): status;
+}
+
+export namespace status {
+  export type AsObject = {
+    isloggedin: boolean,
   }
 }
 

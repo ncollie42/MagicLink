@@ -87,12 +87,22 @@ func isError(err error) bool {
 
 //-------------------------------------------------------------------------------------
 
-func newJWT() string {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"foo": "bar",
-		"id":  "123",
-	})
-	tokenString, err := token.SignedString([]byte("hmacSampleSecret"))
+type customClaims struct {
+	UserID int64 `json:"userID"`
+	jwt.StandardClaims
+}
+
+func newJWT(userID int64) string {
+	claims := customClaims{
+		userID,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(5 * time.Minute).Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 	fmt.Println(tokenString)
 	if err != nil {
 		fmt.Println(err)
@@ -100,10 +110,19 @@ func newJWT() string {
 	return tokenString
 }
 
-//----------------------------------
-
-func createUpdate(email string, key int) (userID int) {
-	//go to database, use key to find tab
-	//insert / update
-	return 42
+func verifyJWT(str string) bool {
+	token, err := jwt.ParseWithClaims(str, &customClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("SECRET")), nil
+	})
+	if isError(err) {
+		return false
+	}
+	if claims, ok := token.Claims.(*customClaims); ok && token.Valid {
+		fmt.Println(claims.StandardClaims.ExpiresAt)
+		return true
+	}
+	fmt.Println(err)
+	return false
 }
+
+//----------------------------------

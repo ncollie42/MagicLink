@@ -52,7 +52,7 @@ export default Vue.extend({
         const sendingCode = new code();
         sendingCode.setCode(query.code);
 
-        grpc.unary(Login.acceptEmail, {
+        grpc.unary(Login.confirmLogin, {
             request: sendingCode,
             host: this.$hostname,
             onEnd: res => {

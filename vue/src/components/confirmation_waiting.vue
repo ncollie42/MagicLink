@@ -7,6 +7,9 @@
 
 <script>
 export default {
-    name: 'waiting'
+    name: 'waiting',
+    created: function() {
+        console.log("I am created NOW")
+    },
 }
 </script>

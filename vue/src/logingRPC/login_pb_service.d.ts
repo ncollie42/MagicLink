@@ -4,28 +4,38 @@
 import * as login_pb from "./login_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
-type LoginsendEmail = {
+type Loginlogin = {
   readonly methodName: string;
   readonly service: typeof Login;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof login_pb.email;
+  readonly requestType: typeof login_pb.loginInfo;
   readonly responseType: typeof login_pb.jwt;
 };
 
-type LoginacceptEmail = {
+type LoginconfirmLogin = {
   readonly methodName: string;
   readonly service: typeof Login;
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof login_pb.code;
-  readonly responseType: typeof login_pb.tmpReturn;
+  readonly responseType: typeof login_pb.empty;
+};
+
+type LoginisLoggedIn = {
+  readonly methodName: string;
+  readonly service: typeof Login;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof login_pb.jwt;
+  readonly responseType: typeof login_pb.status;
 };
 
 export class Login {
   static readonly serviceName: string;
-  static readonly sendEmail: LoginsendEmail;
-  static readonly acceptEmail: LoginacceptEmail;
+  static readonly login: Loginlogin;
+  static readonly confirmLogin: LoginconfirmLogin;
+  static readonly isLoggedIn: LoginisLoggedIn;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -60,23 +70,32 @@ export class LoginClient {
   readonly serviceHost: string;
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
-  sendEmail(
-    requestMessage: login_pb.email,
+  login(
+    requestMessage: login_pb.loginInfo,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: login_pb.jwt|null) => void
   ): UnaryResponse;
-  sendEmail(
-    requestMessage: login_pb.email,
+  login(
+    requestMessage: login_pb.loginInfo,
     callback: (error: ServiceError|null, responseMessage: login_pb.jwt|null) => void
   ): UnaryResponse;
-  acceptEmail(
+  confirmLogin(
     requestMessage: login_pb.code,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: login_pb.tmpReturn|null) => void
+    callback: (error: ServiceError|null, responseMessage: login_pb.empty|null) => void
   ): UnaryResponse;
-  acceptEmail(
+  confirmLogin(
     requestMessage: login_pb.code,
-    callback: (error: ServiceError|null, responseMessage: login_pb.tmpReturn|null) => void
+    callback: (error: ServiceError|null, responseMessage: login_pb.empty|null) => void
+  ): UnaryResponse;
+  isLoggedIn(
+    requestMessage: login_pb.jwt,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: login_pb.status|null) => void
+  ): UnaryResponse;
+  isLoggedIn(
+    requestMessage: login_pb.jwt,
+    callback: (error: ServiceError|null, responseMessage: login_pb.status|null) => void
   ): UnaryResponse;
 }
 

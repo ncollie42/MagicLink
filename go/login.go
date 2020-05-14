@@ -6,35 +6,48 @@ import (
 	"fmt"
 	"time"
 
+	db "magicLink/db"
 	login "magicLink/logingRPC"
+
+	"github.com/go-pg/pg/v9"
 )
 
-type loginService struct {
-	connectionTable map[string](chan bool)
+type data struct {
+	email         string
+	applicationID int64
+	c             chan int64
 }
 
-func (l *loginService) AcceptEmail(ctx context.Context, hash *login.Code) (*login.TmpReturn, error) {
-	fmt.Println("Got a acceptEmail call")
+type loginService struct {
+	connectionTable map[string]data
+	db              *pg.DB
+}
 
-	if c, ok := l.connectionTable[hash.Code]; ok {
-		//notify email link has been clicked
-		fmt.Println("clicked!")
-		//Go to database 'update/create/
-		c <- true //send jwt info into channel
+func (l *loginService) ConfirmLogin(ctx context.Context, hash *login.Code) (*login.Empty, error) {
+	if data, ok := l.connectionTable[hash.Code]; ok {
+		userID := db.CreatOrUpdate(l.db, data.email, data.applicationID)
+		data.c <- userID
 	} else {
-		return &login.TmpReturn{Str: "Bad"}, errors.New("This link(hash) is not valid")
+		return &login.Empty{}, errors.New("This link(hash) is not valid")
 	}
-	return &login.TmpReturn{Str: "Ok"}, nil
+	return &login.Empty{}, nil
 }
 
 //check ctx if page is closed early?
-func (l *loginService) SendEmail(ctx context.Context, email *login.Email) (*login.Jwt, error) {
-	c := make(chan bool)
+func (l *loginService) Login(ctx context.Context, request *login.LoginInfo) (*login.Jwt, error) {
+	c := make(chan int64)
 	key := randomString(15)
-	l.connectionTable[key] = c
-	fmt.Println(email.Email, key)
+
+	l.connectionTable[key] = data{
+		email:         request.Email,
+		applicationID: request.Key,
+		c:             c,
+	}
+
+	fmt.Println(request.Email, key, request.Key)
+
 	emailBody := sendingEmail{
-		ToEmail: email.Email,
+		ToEmail: request.Email,
 		Subject: "Email confirmation",
 		Link:    "localhost:8090/#/confirmation/?code=" + key,
 	}
@@ -51,14 +64,47 @@ func (l *loginService) SendEmail(ctx context.Context, email *login.Email) (*logi
 			fmt.Println("Time is over gonna end")
 			delete(l.connectionTable, key)
 			return &login.Jwt{Jwt: ""}, errors.New("Email has expired")
-		case <-c:
+		case userID := <-c:
 			fmt.Println("Email clicked")
 			delete(l.connectionTable, key)
-			return &login.Jwt{Jwt: newJWT()}, nil
+			if userID > 0 {
+				return &login.Jwt{Jwt: newJWT(userID)}, nil
+			}
+			return &login.Jwt{}, errors.New("Invalid ApplicationID")
+
 		case <-ctx.Done():
 			fmt.Println("Something happened")
+			break
 		}
 	}
-	fmt.Println("func is over")
-	return &login.Jwt{Jwt: email.Email}, nil
+	return &login.Jwt{Jwt: request.Email}, nil
 }
+
+func (l *loginService) IsLoggedIn(ctx context.Context, jwt *login.Jwt) (*login.Status, error) {
+	if verifyJWT(jwt.Jwt) {
+		fmt.Println("it's valid")
+		return &login.Status{IsLoggedIn: true}, nil
+	}
+
+	fmt.Println("It's not valid")
+	return &login.Status{IsLoggedIn: false}, errors.New("jwt is not valid")
+}
+
+/*
+
+	go to db,
+		- create/update user --> add or create
+			-
+		- make sure he's on follow table --> add or do nothing
+			- user connectionID to go to table and create new if it doesn't exsis
+		- return userID
+
+	create JWT with
+		- userID
+		- project/connectionID
+		- expire time, time.Now() + 10min
+
+	isLoggedIn -> verifies token
+		- on server I can check projectID to makesure it's mine. (optional)
+
+*/

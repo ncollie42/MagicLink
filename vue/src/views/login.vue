@@ -12,7 +12,7 @@
 import login_enter from "@/components/login_enter.vue"
 import { grpc } from "@improbable-eng/grpc-web";
 import { Login } from "../logingRPC/login_pb_service"; //service
-import { email } from "../logingRPC/login_pb"; //type
+import { loginInfo, jwt } from "../logingRPC/login_pb"; //type
 
 const State = {
     Idle: 1,
@@ -22,6 +22,10 @@ export default {
     name: "login",
     components: {
         login_enter,
+    },
+    created() {
+        this.isLoggedIn();
+        console.log("created now!")
     },
     data() {
         return {
@@ -34,11 +38,12 @@ export default {
         call(passedEmail) {
             
             // e.preventDefault();
-            const sendingEmail = new email();
+            const sendingEmail = new loginInfo();
             sendingEmail.setEmail(passedEmail);
-            
+            sendingEmail.setKey(1);
+
             this.currentState = State.Waiting;
-            grpc.unary(Login.sendEmail, {
+            grpc.unary(Login.login, {
                 request: sendingEmail,
                 host: this.$hostname,
                 onEnd: res => {
@@ -55,7 +60,25 @@ export default {
                     }
                 }
             })
-            console.log(sendingEmail.getEmail())
+        },
+        isLoggedIn: function() {
+            let localJWT = localStorage.getItem("jwt")
+
+            const req = new jwt()
+            req.setJwt(localJWT)
+            grpc.unary(Login.isLoggedIn, {
+                request: req,
+                host: this.$hostname,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc.Code.OK && message) {
+                        console.log("We good -> forward elsewhere")
+                    } else {
+                       console.log("status:", status, statusMessage, headers, message, trailers)
+                       console.log("Not logged in")
+                    }
+                }
+            })
         }
     },
 }

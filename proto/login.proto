@@ -5,12 +5,14 @@ package Login;
 option go_package = ".;Login";
 
 service Login {
-    rpc sendEmail(email) returns (jwt);
-    rpc acceptEmail(code) returns (tmpReturn);
+    rpc login(loginInfo) returns (jwt);
+    rpc confirmLogin(code) returns (empty);
+    rpc isLoggedIn(jwt) returns (status);
 }
 
-message email {
+message loginInfo {
     string email = 1;
+    int64 key = 2;
 }
 
 message jwt {
@@ -21,6 +23,9 @@ message code {
     string code = 1;
 }
 
-message tmpReturn {
-    string str = 1;
+message empty {
+}
+
+message status {
+    bool isLoggedIn = 1;
 }
