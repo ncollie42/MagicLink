@@ -47,7 +47,6 @@ func randomString(n int) string {
 }
 
 //-------------------------------------------------------------------------------------
-// TODO: change matcha toEmail to acutal
 type sendingEmail struct {
 	ToEmail string
 	Subject string
@@ -58,10 +57,10 @@ func sendMail(emailInfo sendingEmail) error {
 	gmailSMTP := "smtp.gmail.com:587"
 	fromEmail := "42.matcha.project@gmail.com"
 	pass := os.Getenv("PASS")
-	toEmail := "42.matcha.project@gmail.com" //Update this later to email from args
+	toEmail := emailInfo.ToEmail
 	msg := []byte("To: " + emailInfo.ToEmail + "\r\n" +
 		"Subject:" + emailInfo.Subject + "\n\n" +
-		"Click button below to log\nThis link will expire in 10 seconds\n\n" +
+		"Click button below to log\nThis link will expire in 10 minutes\n\n" +
 		emailInfo.Link)
 	auth := smtp.PlainAuth(
 		"",
@@ -96,7 +95,7 @@ func newJWT(userID int64) string {
 	claims := customClaims{
 		userID,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(5 * time.Minute).Unix(),
+			ExpiresAt: time.Now().Add(1 * time.Hour).Unix(),
 		},
 	}
 

@@ -2,9 +2,9 @@
 <div >
     <h1>Sign up / Log in</h1>
     <form @submit="$emit('email', email)" >
-        <input class="space2" type="email" v-model=email placeholder="Hello@world.com">
+        <input type="email" v-model=email placeholder="Hello@world.com">
         <div id="space"></div>
-        <input class="space2" type="submit" value="Sign up / Log in" >
+        <input class="btn" type="submit" value="Sign up / Log in" >
     </form>
 </div>
 </template>
@@ -27,5 +27,10 @@ export default Vue.extend({
 #space {
     height: 1pc;
 }
+
+#btn:hover {
+    transform: scale(1.05);
+}
+
 
 </style>

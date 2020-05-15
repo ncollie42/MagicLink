@@ -1,11 +1,10 @@
 <template>
     <div>
         <!-- img -->
-        <h1>Confirm your email!</h1>
+        <h1>Don't close this tab!</h1>
+        <h2>Confirm your email!</h2>
         <p>We emailed a magic link to </p>
         <p class="thick">{{email}}</p>
-        <p> Click the link to log in or sign up</p>
-        <h1>Don't close this tab</h1>
     </div>
 </template>
 

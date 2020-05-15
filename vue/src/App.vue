@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-      <!-- <router-link to="/about">About</router-link> -->
     <router-view/>
   </div>
 </template>
@@ -12,20 +11,6 @@
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
-  background-color: #3d5e80;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 
 .container {
@@ -42,5 +27,19 @@
     box-shadow: 0 0 15px rgb(47, 41, 42);
     border-radius: 15px;
     padding: 15px;
+}
+
+
+.btn {
+    color: whitesmoke;
+    font-weight: bold;
+    background : #6851ff;
+    border-radius: 10px;
+    height: 50px;
+    width: 250px;
+}
+
+.btn:hover {
+    transform: scale(1.05);
 }
 </style>

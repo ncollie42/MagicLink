@@ -3,7 +3,7 @@
         <div class="containerInner">
         <login_enter v-on:email="login" v-if="currentState == State.Idle"/>
         <login_waiting v-bind:email=email v-if="currentState == State.Waiting"/>
-        <p>{{responce}}</p>
+        <p v-if="currentState == State.Idle">{{responce}}</p>
         </div>
     </div>
 </template>
@@ -15,7 +15,7 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { Login } from "../logingRPC/login_pb_service"; //service
 import { loginInfo, jwt} from "../logingRPC/login_pb"; //type
 import router from "../router"
-
+import Vue from "vue"
 const State = {
     Idle: 1,
     Waiting: 2,
@@ -40,7 +40,6 @@ export default {
     methods: {
         login(passedEmail) {
             this.email = passedEmail
-            // e.preventDefault();
             const sendingEmail = new loginInfo();
             sendingEmail.setEmail(passedEmail);
             sendingEmail.setKey(1);
@@ -52,9 +51,8 @@ export default {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc.Code.OK && message) {
-                    // console.log("All good it worked: ", message.toObject());
-                        // this.responce = message.toObject().jwt;
                         localStorage.setItem("jwt", message.toObject().jwt);
+                        Vue.prototype.$user = this.email
                         router.push({path: '/'})
                     } else {
                     console.log("status:", status, statusMessage, headers, message, trailers)
@@ -78,8 +76,6 @@ export default {
                         router.push({path: '/'})
                     } else {
                        console.log("status:", status, statusMessage, headers, message, trailers)
-                       console.log("Not logged in")
-
                     }
                 }
             })

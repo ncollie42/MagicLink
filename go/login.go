@@ -56,8 +56,8 @@ func (l *loginService) Login(ctx context.Context, request *login.LoginInfo) (*lo
 		return &login.Jwt{}, err
 	}
 
-	sleepTime := 10 // change to minutes,from seconds
-	ticker := time.NewTicker(time.Duration(sleepTime) * time.Second).C
+	waitTime := 10
+	ticker := time.NewTicker(time.Duration(waitTime) * time.Minute).C
 	for {
 		select {
 		case <-ticker:

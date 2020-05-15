@@ -1,5 +1,6 @@
 <template>
     <div>
+        <img src="@/assets/background.svg" alt="">
         <div class="container">
             <div class="containerInner">
             <waiting v-if="currentState == State.Waiting"/>
@@ -10,6 +11,14 @@
     </div>
 </template>
 
+<style scoped>
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+</style>
 
 <script lang="ts">
 import Vue from 'vue'
@@ -55,7 +64,6 @@ export default Vue.extend({
             onEnd: res => {
                 const { status, statusMessage, headers, message, trailers } = res;
                 if (status === grpc.Code.OK && message) {
-                console.log("All good it worked: ", message.toObject());
                     this.currentState = State.Succes
                 } else {
                 console.log("status:", status, statusMessage, headers, message, trailers)
