@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 
 Vue.config.productionTip = false
-Vue.prototype.$hostname = "https://173.255.248.250:8443"
+Vue.prototype.$hostname = "https://li258-250.members.linode.com:8443"
 // Vue.prototype.$hostname = "http://10.10.134.112:8080"
 new Vue({
   router,

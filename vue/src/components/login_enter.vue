@@ -28,9 +28,4 @@ export default Vue.extend({
     height: 1pc;
 }
 
-#btn:hover {
-    transform: scale(1.05);
-}
-
-
 </style>
