@@ -49,7 +49,7 @@ func (l *loginService) Login(ctx context.Context, request *login.LoginInfo) (*lo
 	emailBody := sendingEmail{
 		ToEmail: request.Email,
 		Subject: "Email confirmation",
-		Link:    "localhost:8090/#/confirmation/?code=" + key,
+		Link:    "https://ncollie42.github.io/MagicLink/#/confirmation/?code=" + key,
 	}
 	err := sendMail(emailBody)
 	if isError(err) {

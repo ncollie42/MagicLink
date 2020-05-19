@@ -1,6 +1,6 @@
 <template>
     <div>
-    <img src="http://placekitten.com/200/300">
+    <img src="https://placekitten.com/200/300">
     <h1>Logging you in...</h1>    
     </div>
 </template>
